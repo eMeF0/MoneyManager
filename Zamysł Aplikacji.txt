@@ -1,0 +1,13 @@
+Baza danych: SQLIte
+- Kategorie wydatków: Jedzenie, Transport, Rozrywka, Zdrowie, Inne, Kwota
+- Kategorie przychodów: Wynagrodzenie, Prezenty, Inne, Kwota
+- Dodawanie, edytowanie i usuwanie transakcji
+- Kalenda¿ wydatków i przychodów
+- Przegl¹danie historii transakcji
+- Filtrowanie wed³ug daty, kategorii i kwoty
+- Eksport danych do CSV
+- Raporty miesiêczne i roczne
+- Wykresy i statystyki
+- Bud¿etowanie i cele oszczêdnoœciowe
+- Powiadomienia o zbli¿aj¹cych siê rachunkach
+- Synchronizacja z chmur¹ //PóŸniej
