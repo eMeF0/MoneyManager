@@ -10,14 +10,13 @@ Aplikacja webowa do zarządzania finansami osobistymi: śledzenie transakcji (pr
 - **.NET 8 / ASP.NET Core MVC**
 - **Entity Framework Core** (SQLite)
 - **Bootstrap 5 + Bootstrap Icons**
-- Minimalny front-end własny
   
 ---
 
 ## Funkcjonalności
 
 ### Pulpit (Dashboard)
-- KPI: bilans całkowity, zmiana m/m, przychody i wydatki bieżącego miesiąca.
+- Bilans całkowity, zmiana m/m, przychody i wydatki bieżącego miesiąca.
 - Ostatnie transakcje, skróty nawigacyjne.
 - Podstawowe wykresy (payloady pod wykresy słupkowe/kołowe w `ViewModels.Common`).
 
