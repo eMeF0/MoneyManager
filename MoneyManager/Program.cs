@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoneyManager.Data;
+using System.Globalization;
 
 namespace MoneyManager
 {
@@ -7,6 +8,10 @@ namespace MoneyManager
     {
         public static void Main(string[] args)
         {
+            var culture = new CultureInfo("pl-PL");
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add DbContext with SQLite configuration from file

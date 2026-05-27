@@ -1,0 +1,52 @@
+@model IEnumerable<MoneyManager.Models.Category>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Setup</p>
+        <h1>Categories</h1>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">Add category</a>
+</section>
+
+<section class="panel">
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <h3>No categories yet</h3>
+            <p>Create categories before adding transactions.</p>
+            <a asp-action="Create" class="btn btn-primary">Add category</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th class="action-column">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model)
+                    {
+                        <tr>
+                            <td><strong>@category.Name</strong></td>
+                            <td>@(string.IsNullOrWhiteSpace(category.Description) ? "-" : category.Description)</td>
+                            <td class="action-column">
+                                <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                <a asp-action="Edit" asp-route-id="@category.Id">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@category.Id" class="text-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

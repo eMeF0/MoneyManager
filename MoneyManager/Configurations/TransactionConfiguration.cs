@@ -21,7 +21,7 @@ namespace MoneyManager.Configurations
                 .HasMaxLength(150);
 
             builder.HasOne(x => x.Category)
-                .WithMany()
+                .WithMany(x => x.Transactions)
                 .HasForeignKey(x => x.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of Category if it has related Transactions.
 

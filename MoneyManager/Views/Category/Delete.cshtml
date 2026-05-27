@@ -1,0 +1,31 @@
+@model MoneyManager.Models.Category
+
+@{
+    ViewData["Title"] = "Delete category";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Setup</p>
+        <h1>Delete category</h1>
+    </div>
+</section>
+
+<section class="panel details-panel">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <p class="lead">Delete <strong>@Model.Name</strong> permanently?</p>
+    <p class="text-muted">Categories with transactions cannot be deleted.</p>
+
+    <dl class="row">
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Description) ? "-" : Model.Description)</dd>
+        <dt class="col-sm-3">Transactions</dt>
+        <dd class="col-sm-9">@Model.Transactions.Count</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post" class="form-actions">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger" disabled="@(Model.Transactions.Any())">Delete</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</section>

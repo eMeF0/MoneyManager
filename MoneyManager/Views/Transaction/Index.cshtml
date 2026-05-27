@@ -1,0 +1,60 @@
+@model IEnumerable<MoneyManager.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Ledger</p>
+        <h1>Transactions</h1>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">Add transaction</a>
+</section>
+
+<section class="panel">
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <h3>No transactions yet</h3>
+            <p>Create a transaction to start tracking money flow.</p>
+            <a asp-action="Create" class="btn btn-primary">Add transaction</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th class="text-end">Amount</th>
+                        <th class="action-column">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Model)
+                    {
+                        <tr>
+                            <td>@transaction.Date.ToString("yyyy-MM-dd")</td>
+                            <td><span class="badge-soft @transaction.Type.ToString().ToLowerInvariant()">@transaction.Type</span></td>
+                            <td>@transaction.Category?.Name</td>
+                            <td>@(string.IsNullOrWhiteSpace(transaction.Description) ? "-" : transaction.Description)</td>
+                            <td class="text-end @(transaction.Type == TransactionType.Income ? "text-success" : "text-danger")">
+                                @(transaction.Type == TransactionType.Income ? "+" : "-")@transaction.Amount.ToString("C")
+                            </td>
+                            <td class="action-column">
+                                <a asp-action="Details" asp-route-id="@transaction.Id">Details</a>
+                                <a asp-action="Edit" asp-route-id="@transaction.Id">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@transaction.Id" class="text-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

@@ -1,0 +1,31 @@
+@model MoneyManager.Models.Transaction
+
+@{
+    ViewData["Title"] = "Transaction details";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Ledger</p>
+        <h1>Transaction details</h1>
+    </div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+</section>
+
+<section class="panel details-panel">
+    <dl class="row">
+        <dt class="col-sm-3">Date</dt>
+        <dd class="col-sm-9">@Model.Date.ToString("yyyy-MM-dd")</dd>
+        <dt class="col-sm-3">Type</dt>
+        <dd class="col-sm-9"><span class="badge-soft @Model.Type.ToString().ToLowerInvariant()">@Model.Type</span></dd>
+        <dt class="col-sm-3">Amount</dt>
+        <dd class="col-sm-9 @(Model.Type == TransactionType.Income ? "text-success" : "text-danger")">
+            @(Model.Type == TransactionType.Income ? "+" : "-")@Model.Amount.ToString("C")
+        </dd>
+        <dt class="col-sm-3">Category</dt>
+        <dd class="col-sm-9">@Model.Category?.Name</dd>
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Description) ? "-" : Model.Description)</dd>
+    </dl>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+</section>

@@ -11,5 +11,7 @@ namespace MoneyManager.Models
 
         [MaxLength(250)]
         public string? Description { get; set; } = string.Empty;
+
+        public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
     }
 }

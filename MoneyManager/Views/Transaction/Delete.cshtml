@@ -1,0 +1,31 @@
+@model MoneyManager.Models.Transaction
+
+@{
+    ViewData["Title"] = "Delete transaction";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Ledger</p>
+        <h1>Delete transaction</h1>
+    </div>
+</section>
+
+<section class="panel details-panel">
+    <p class="lead">Delete this transaction permanently?</p>
+    <dl class="row">
+        <dt class="col-sm-3">Date</dt>
+        <dd class="col-sm-9">@Model.Date.ToString("yyyy-MM-dd")</dd>
+        <dt class="col-sm-3">Category</dt>
+        <dd class="col-sm-9">@Model.Category?.Name</dd>
+        <dt class="col-sm-3">Amount</dt>
+        <dd class="col-sm-9 @(Model.Type == TransactionType.Income ? "text-success" : "text-danger")">
+            @(Model.Type == TransactionType.Income ? "+" : "-")@Model.Amount.ToString("C")
+        </dd>
+    </dl>
+    <form asp-action="Delete" method="post" class="form-actions">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+</section>

@@ -1,12 +1,115 @@
-﻿@model IEnumerable<MoneyManager.Models.Category> 
+@model MoneyManager.ViewModels.DashboardViewModel
+@using System.Text.Json
+
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
+    var monthlyData = JsonSerializer.Serialize(Model.MonthlyBalance.Select(x => new
+    {
+        label = x.Label,
+        income = x.Income,
+        expenses = x.Expenses
+    }));
+    var categoryData = JsonSerializer.Serialize(Model.SpendingByCategory.Select(x => new
+    {
+        label = x.Category,
+        amount = x.Amount
+    }));
 }
 
-<h1>
-    Categories
-</h1>
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Overview</p>
+        <h1>Money dashboard</h1>
+    </div>
+    <a asp-controller="Transaction" asp-action="Create" class="btn btn-primary">Add transaction</a>
+</section>
 
-<p>
-    <a asp-action="" class="btn btn-primary">Add new categories</a>
-</p>
+<section class="metric-grid">
+    <article class="metric-card">
+        <span>Total balance</span>
+        <strong class="@(Model.Balance >= 0 ? "text-success" : "text-danger")">@Model.Balance.ToString("C")</strong>
+    </article>
+    <article class="metric-card">
+        <span>Income</span>
+        <strong class="text-success">@Model.TotalIncome.ToString("C")</strong>
+    </article>
+    <article class="metric-card">
+        <span>Expenses</span>
+        <strong class="text-danger">@Model.TotalExpenses.ToString("C")</strong>
+    </article>
+    <article class="metric-card">
+        <span>Activity</span>
+        <strong>@Model.TransactionCount</strong>
+        <small>@Model.CategoryCount categories</small>
+    </article>
+</section>
+
+<section class="dashboard-grid">
+    <article class="panel">
+        <div class="panel-heading">
+            <h2>Monthly flow</h2>
+            <span>Last 6 months</span>
+        </div>
+        <canvas id="monthlyChart" class="chart-canvas" aria-label="Monthly income and expenses chart"></canvas>
+    </article>
+    <article class="panel">
+        <div class="panel-heading">
+            <h2>Top spending</h2>
+            <span>By category</span>
+        </div>
+        <canvas id="categoryChart" class="chart-canvas" aria-label="Expenses by category chart"></canvas>
+    </article>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Recent transactions</h2>
+        <a asp-controller="Transaction" asp-action="Index">View all</a>
+    </div>
+
+    @if (!Model.RecentTransactions.Any())
+    {
+        <div class="empty-state">
+            <h3>No transactions yet</h3>
+            <p>Add your first income or expense to populate the dashboard.</p>
+            <a asp-controller="Transaction" asp-action="Create" class="btn btn-primary">Add transaction</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Model.RecentTransactions)
+                    {
+                        <tr>
+                            <td>@transaction.Date.ToString("yyyy-MM-dd")</td>
+                            <td>@transaction.Category?.Name</td>
+                            <td>@(string.IsNullOrWhiteSpace(transaction.Description) ? "-" : transaction.Description)</td>
+                            <td class="text-end @(transaction.Type == TransactionType.Income ? "text-success" : "text-danger")">
+                                @(transaction.Type == TransactionType.Income ? "+" : "-")@transaction.Amount.ToString("C")
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <script>
+        window.moneyManagerCharts = {
+            monthly: @Html.Raw(monthlyData),
+            categories: @Html.Raw(categoryData)
+        };
+    </script>
+}
