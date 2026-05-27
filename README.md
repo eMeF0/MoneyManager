@@ -1,8 +1,6 @@
-# MoneyManager (WIP)
+# MoneyManager
 
 Aplikacja webowa do zarządzania finansami osobistymi: śledzenie transakcji (przychody/wydatki), kont, kategorii, budżetów oraz szybkie podsumowania na pulpicie.
-
-> **Status**: projekt w trakcie tworzenia (MVP). Część funkcjonalności jest gotowa, część w budowie.
 
 ---
 
